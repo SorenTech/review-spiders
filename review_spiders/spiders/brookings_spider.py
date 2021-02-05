@@ -23,6 +23,12 @@ class BrookingsSpider(scrapy.Spider):
                 'title': article.css('h4.title::text').get(),
                 'author': article.css('div.authors::text').getall(),
                 'date': article.css('time::text').get(),
-                'url': article.css('h4 + a').get(),
-                'content': /* follow-link here to get text */
+                'url': article.css('h4.title a::attr(href)').get(),
+                'content': article.follow('h4.title a::attr(href)', callback=self.parse_content)
             }
+
+    def parse_content(self, response):
+        yield {
+            'content': response.css('article').get()
+        }
+
