@@ -29,6 +29,9 @@ class BrookingsSpider(scrapy.Spider):
 
     def parse_content(self, response):
         yield {
-            'content': response.css('article').get()
+            'content': response.css('article').get(),
+            'content': response.css('div.post-body').get(),
+            'content': response.css('div.blog-content').get(),
+            'acknowledgments': response.css('section.post__acknowledgments').get()
         }
 
