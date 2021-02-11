@@ -1,9 +1,10 @@
-import Scrapy
+import scrapy
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
+from review_spiders.items import ReviewSpidersItem
 
 class BrookingsSpider(scrapy.Spider):
-    name = "Brookings Institution"
+    name = "Brookings"
     allowed_domains = ['brookings.edu']
     start_urls = [
             'https://www.brookings.edu/search/?post_type=post&orderby=date',
@@ -27,7 +28,7 @@ class BrookingsSpider(scrapy.Spider):
     )
 
     def parse_blog(self, response):
-        item = scrapy.Item()
+        item = ReviewSpidersItem()
         item['title'] = response.css('h1.report-title::text').get()
         item['authors'] = response.css('span.names a span::text').getall()
         item['date'] = response.css('time.date::text').get()
@@ -36,7 +37,7 @@ class BrookingsSpider(scrapy.Spider):
         item['content'] = response.css('div.post-body').get()
 
     def parse_essay(self, response):
-        item = scrapy.Item()
+        item = ReviewSpidersItem()
         item['title'] = response.css('h1.block--essay-hero__title::text').get()
         item['sub-title'] = response.css('div.block--essay-hero__sub-title::text').get()
         item['authors'] = response.css('div.block--essay-author a::text').getall()
@@ -45,7 +46,7 @@ class BrookingsSpider(scrapy.Spider):
         item['copyright'] = response.css('span.copyright::text').get()
 
     def parse_techstream(self, response):
-        item = scrapy.Item()
+        item = ReviewSpidersItem()
         item['title'] = response.css('a.techstream--title::text').get()
         item['authors'] = response.css('div.techstream--authors a span::text').getall()
         item['date'] = response.css('span.techstream--pubdate::text').get()
