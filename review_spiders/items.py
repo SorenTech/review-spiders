@@ -9,9 +9,12 @@ from scrapy.item import Item, Field
 class ReviewSpidersItem(Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
+    publisher = Field()
+    weight = Field()
+    date = Field()
+    url = Field()
     title = Field()
     authors = Field()
-    date = Field()
     topic = Field()
     tags = Field()
     content = Field()

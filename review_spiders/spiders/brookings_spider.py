@@ -29,6 +29,8 @@ class BrookingsSpider(scrapy.Spider):
 
     def parse_blog(self, response):
         item = ReviewSpidersItem()
+        item['publisher'] = "Brookings"
+        item['weight'] = 1
         item['title'] = response.css('h1.report-title::text').get()
         item['authors'] = response.css('span.names a span::text').getall()
         item['date'] = response.css('time.date::text').get()
@@ -38,6 +40,8 @@ class BrookingsSpider(scrapy.Spider):
 
     def parse_essay(self, response):
         item = ReviewSpidersItem()
+        item['publisher'] = "Brookings"
+        item['weight'] = 1
         item['title'] = response.css('h1.block--essay-hero__title::text').get()
         item['sub-title'] = response.css('div.block--essay-hero__sub-title::text').get()
         item['authors'] = response.css('div.block--essay-author a::text').getall()
@@ -47,6 +51,8 @@ class BrookingsSpider(scrapy.Spider):
 
     def parse_techstream(self, response):
         item = ReviewSpidersItem()
+        item['publisher'] = "Brookings"
+        item['weight'] = 4
         item['title'] = response.css('a.techstream--title::text').get()
         item['authors'] = response.css('div.techstream--authors a span::text').getall()
         item['date'] = response.css('span.techstream--pubdate::text').get()
@@ -54,10 +60,12 @@ class BrookingsSpider(scrapy.Spider):
 
     def parse_default(self, response):
         for article in response.css('div.article-info'):
-            yield {
-                'title': article.css('h4.title a::text').get(),
-                'author': article.css('div.authors a span::text').getall(),
-                'date': article.css('time::text').get(),
-                'url': article.css('h4.title a::attr(href)').get(),
-            }
+            item = ReviewSpidersItem()
+            item['publisher'] = "Brookings"
+            item['weight'] = 1
+            item['title'] = article.css('h4.title a::text').get()
+            item['authors'] = article.css('div.authors a span::text').getall()
+            item['date'] = article.css('time::text').get()
+            item['url'] = article.css('h4.title a::attr(href)').get()
+
 
