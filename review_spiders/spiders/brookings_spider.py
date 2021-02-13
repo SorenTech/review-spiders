@@ -1,7 +1,7 @@
 import scrapy
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
-from review_spiders.items import ReviewSpidersItem
+from review_spiders.items import ReviewItem
 
 class BrookingsSpider(scrapy.Spider):
     name = "Brookings"
@@ -28,7 +28,7 @@ class BrookingsSpider(scrapy.Spider):
     )
 
     def parse_blog(self, response):
-        item = ReviewSpidersItem()
+        item = ReviewItem()
         item['publisher'] = "Brookings"
         item['weight'] = 1
         item['title'] = response.css('h1.report-title::text').get()
@@ -39,7 +39,7 @@ class BrookingsSpider(scrapy.Spider):
         item['content'] = response.css('div.post-body').get()
 
     def parse_essay(self, response):
-        item = ReviewSpidersItem()
+        item = ReviewItem()
         item['publisher'] = "Brookings"
         item['weight'] = 1
         item['title'] = response.css('h1.block--essay-hero__title::text').get()
@@ -50,7 +50,7 @@ class BrookingsSpider(scrapy.Spider):
         item['copyright'] = response.css('span.copyright::text').get()
 
     def parse_techstream(self, response):
-        item = ReviewSpidersItem()
+        item = ReviewItem()
         item['publisher'] = "Brookings"
         item['weight'] = 4
         item['title'] = response.css('a.techstream--title::text').get()
@@ -60,7 +60,7 @@ class BrookingsSpider(scrapy.Spider):
 
     def parse_default(self, response):
         for article in response.css('div.article-info'):
-            item = ReviewSpidersItem()
+            item = ReviewItem()
             item['publisher'] = "Brookings"
             item['weight'] = 1
             item['title'] = article.css('h4.title a::text').get()

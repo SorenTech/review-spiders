@@ -6,7 +6,7 @@
 import scrapy
 from scrapy.item import Item, Field
 
-class ReviewSpidersItem(Item):
+class ReviewItem(Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     publisher = Field()
