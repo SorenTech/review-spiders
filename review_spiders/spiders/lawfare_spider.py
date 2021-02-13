@@ -3,7 +3,7 @@ from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
 from review_spiders.items import ReviewItem
 
-class LawfareSpider(scapy.Spider):
+class LawfareSpider(scrapy.Spider):
     name="Lawfare"
     allowed_domains=['lawfareblog.com']
     start_urls = [
@@ -11,10 +11,10 @@ class LawfareSpider(scapy.Spider):
     ]
 
     rules = (
-        Rule(LinkExtractor(allow=('*'), callback='parse_blog'))
+        Rule(LinkExtractor(), callback='parse')
     )
 
-    def parse_blog(self, response):
+    def parse(self, response):
         item = ReviewItem()
         item['publisher'] = "Lawfare"
         item['weight'] = 1.5
