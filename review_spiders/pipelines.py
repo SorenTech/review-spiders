@@ -9,14 +9,21 @@ from itemadapter import ItemAdapter
 from scrapy.exporters import JsonLinesItemExporter
 
 class ReviewSpidersPipeline:
+    def open_spider(self, spider):
+        self.items_to_export = {}
+
     def close_spider(self, spider):
-        exporter.finish_exporting()
+        for exporter in self.items_to_export.values():
+            exporter.finish_exporting()
 
     def _exporter_for_item(self, item):
         adapter = ItemAdapter(item)
-        f = open('~/Code/soren-review/test-data.json')
-        exporter = JsonLinesItemExporter(f)
-        exporter.start_exporting()
+        if item not in items_to_export:
+            f = open('~/Code/soren-review/test-data.json')
+            exporter = JsonLinesItemExporter(f)
+            exporter.start_exporting()
+            self.items_to_export = exporter
+        return self.items_to_export
 
     def process_item(self, item, spider):
         exporter = self._exporter_for_item(item)
