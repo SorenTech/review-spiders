@@ -19,7 +19,7 @@ class ReviewSpidersPipeline:
     def _exporter_for_item(self, item):
         adapter = ItemAdapter(item)
         if item not in items_to_export:
-            f = open('~/Code/soren-review/test-data.json')
+            f = open('~/Code/soren-review/test-data.json', "w")
             exporter = JsonLinesItemExporter(f)
             exporter.start_exporting()
             self.items_to_export = exporter
