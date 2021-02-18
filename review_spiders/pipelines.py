@@ -15,11 +15,12 @@ class ReviewSpidersPipeline:
     def close_spider(self, spider):
         for exporter in self.items_to_export.values():
             exporter.finish_exporting()
+        close('~/Code/soren-review/test-data.json')
 
     def _exporter_for_item(self, item):
         adapter = ItemAdapter(item)
         if item not in items_to_export:
-            f = open('~/Code/soren-review/test-data.json', "w")
+            f = open('~/Code/soren-review/test-data.json', "a")
             exporter = JsonLinesItemExporter(f)
             exporter.start_exporting()
             self.items_to_export = exporter
