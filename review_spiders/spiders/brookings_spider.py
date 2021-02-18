@@ -37,6 +37,7 @@ class BrookingsSpider(scrapy.Spider):
         item['topic'] = response.css('a.label::text').getall()
         item['tags'] = response.css('a.tag::text').getall()
         item['content'] = response.css('div.post-body').get()
+        yield item
 
     def parse_essay(self, response):
         item = ReviewItem()
@@ -48,6 +49,7 @@ class BrookingsSpider(scrapy.Spider):
         item['date'] = response.css('div.block--essay-pub-date div::text').get()
         item['content'] = response.css('div.post-body').get()
         item['copyright'] = response.css('span.copyright::text').get()
+        yield item
 
     def parse_techstream(self, response):
         item = ReviewItem()
@@ -57,6 +59,7 @@ class BrookingsSpider(scrapy.Spider):
         item['authors'] = response.css('div.techstream--authors a span::text').getall()
         item['date'] = response.css('span.techstream--pubdate::text').get()
         item['content'] = response.css('div.techstream--content').get()
+        yield item
 
     def parse_default(self, response):
         for article in response.css('div.article-info'):
@@ -67,5 +70,4 @@ class BrookingsSpider(scrapy.Spider):
             item['authors'] = article.css('div.authors a span::text').getall()
             item['date'] = article.css('time::text').get()
             item['url'] = article.css('h4.title a::attr(href)').get()
-
-
+            yield item
