@@ -15,7 +15,6 @@ class ReviewSpidersPipeline:
     def close_spider(self, spider):
         for exporter in self.items_to_export.values():
             exporter.finish_exporting()
-        close('~/Code/soren-review/test-data.json')
 
     def _exporter_for_item(self, item):
         adapter = ItemAdapter(item)
